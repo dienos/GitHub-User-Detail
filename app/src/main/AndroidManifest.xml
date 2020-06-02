@@ -33,17 +33,17 @@
         </activity>
 
         <activity
-            android:name=".view.UserListActivity"
+            android:name=".view.RepositoryListActivity"
             android:label="@string/app_name" />
 
         <activity
             android:name=".view.UserDetailActivity"
             android:label="@string/github_list_detail"
-            android:parentActivityName=".view.UserListActivity">
+            android:parentActivityName=".view.RepositoryListActivity">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.UserListActivity"/>
+                android:value=".view.RepositoryListActivity"/>
         </activity>
     </application>
 </manifest>

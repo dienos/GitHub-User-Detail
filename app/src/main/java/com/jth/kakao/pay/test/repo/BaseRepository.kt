@@ -1,4 +1,4 @@
-package com.jth.kakao.pay.test.model.repository.base
+package com.jth.kakao.pay.test.repo
 
 import android.net.Uri
 import com.jth.kakao.pay.test.BuildConfig
