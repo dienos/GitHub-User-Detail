@@ -1,4 +1,4 @@
-package com.jth.kakao.pay.test.view
+package com.jth.kakao.pay.test.ui.signin
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,8 +7,7 @@ import com.jth.kakao.pay.test.R
 import com.jth.kakao.pay.test.databinding.ActivitySignInBinding
 import com.jth.kakao.pay.test.usecase.CommonUseCase
 import com.jth.kakao.pay.test.util.PreferencesUtil
-import com.jth.kakao.pay.test.view.base.BaseBindingActivity
-import com.jth.kakao.pay.test.viewmodel.SignInViewModel
+import com.jth.kakao.pay.test.ui.base.BaseBindingActivity
 import kotlinx.android.synthetic.main.activity_sign_in.*
 
 class SignInActivity : BaseBindingActivity<ActivitySignInBinding>() {

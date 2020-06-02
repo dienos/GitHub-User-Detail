@@ -1,4 +1,4 @@
-package com.jth.kakao.pay.test.viewmodel
+package com.jth.kakao.pay.test.ui.signin
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

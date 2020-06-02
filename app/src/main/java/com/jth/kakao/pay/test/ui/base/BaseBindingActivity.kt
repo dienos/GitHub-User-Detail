@@ -1,4 +1,4 @@
-package com.jth.kakao.pay.test.view.base
+package com.jth.kakao.pay.test.ui.base
 
 import android.os.Bundle
 import androidx.annotation.LayoutRes

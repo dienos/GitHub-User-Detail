@@ -1,7 +1,10 @@
 <resources>
     <string name="app_name">KakaoPayTest</string>
-    <string name="user_empty">유저가 없습니다.</string>
+    <string name="user_empty">유저/레포지토리가 없습니다.</string>
     <string name="github_list_tile">유저 리스트</string>
-    <string name="github_list_detail">유저 상세</string>
+    <string name="github_search">레포지토리 검색</string>
+    <string name="github_list_detail">레포지토리 상세</string>
     <string name="github_login">Github 시작하기</string>
+    <string name="no_name">이름없음</string>
+    <string name="no_language">언어없음</string>
 </resources>

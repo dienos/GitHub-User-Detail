@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View" />
+
+        <import type="android.text.TextUtils"/>
+
+        <variable
+            name="viewModel"
+            type="com.jth.kakao.pay.test.ui.search.SearchViewModel" />
+
+        <variable
+            name="repo"
+            type="com.jth.kakao.pay.test.repo.model.GithubRepo" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:background="?attr/selectableItemBackground"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp">
+
+        <ImageView
+            android:id="@+id/ivItemRepositoryProfile"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerVertical="true"
+            app:img_url="@{repo.owner.avatarUrl}"
+            tools:src="@drawable/ic_launcher_background" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="12dp"
+            android:layout_marginLeft="12dp"
+            android:layout_toEndOf="@+id/ivItemRepositoryProfile"
+            android:layout_toRightOf="@+id/ivItemRepositoryProfile"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvItemRepositoryName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@android:color/black"
+                android:text="@{TextUtils.isEmpty(repo.fullName) ? viewModel.NO_NAME : repo.fullName}" />
+
+            <TextView
+                android:id="@+id/tvItemRepositoryLanguage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                tools:text="@{TextUtils.isEmpty(repo.language) ? viewModel.NO_LANGUAGE : repo.language}" />
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

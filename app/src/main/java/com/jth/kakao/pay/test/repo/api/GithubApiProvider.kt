@@ -25,7 +25,7 @@ object GithubApiProvider {
             .create(AuthApi::class.java)
     }
 
-    fun provideGithubApi(context: Context): GithubApi {
+    fun provideGithubApi(): GithubApi {
         return Retrofit.Builder()
             .baseUrl("https://api.github.com/")
             .client(

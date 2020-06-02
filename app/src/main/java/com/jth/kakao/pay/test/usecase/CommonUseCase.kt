@@ -8,7 +8,7 @@ import androidx.browser.customtabs.CustomTabsIntent
 import com.jth.kakao.pay.test.repo.BaseRepository
 import com.jth.kakao.pay.test.util.Const.TOKEN_KEY
 import com.jth.kakao.pay.test.util.PreferencesUtil
-import com.jth.kakao.pay.test.view.RepositoryListActivity
+import com.jth.kakao.pay.test.ui.search.SearchActivity
 
 class CommonUseCase(private val context: Context) {
     fun checkTokenProcess() {
@@ -22,7 +22,7 @@ class CommonUseCase(private val context: Context) {
     }
 
     fun startRepoListActivity() {
-        val intent = Intent(context, RepositoryListActivity::class.java)
+        val intent = Intent(context, SearchActivity::class.java)
         context.startActivity(intent)
     }
 
