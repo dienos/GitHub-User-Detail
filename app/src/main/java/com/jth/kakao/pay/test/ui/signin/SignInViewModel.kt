@@ -57,7 +57,7 @@ class SignInViewModel(private val useCase: CommonUseCase) : ViewModel() {
                     if(response.isSuccessful) {
                         PreferencesUtil.set(Const.TOKEN_KEY, it.accessToken)
                         SignInRepository.githubAccessToken = it
-                        useCase.startRepoListActivity()
+                        useCase.startSearchActivity()
                         useCase.finish()
                     } else {
                         useCase.showToast(response.message())

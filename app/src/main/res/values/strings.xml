@@ -7,4 +7,8 @@
     <string name="github_login">Github 시작하기</string>
     <string name="no_name">이름없음</string>
     <string name="no_language">언어없음</string>
+    <string name="description">Description</string>
+    <string name="language">Language</string>
+    <string name="last_update">Last update</string>
+    <string name="starts">%d Stars</string>
 </resources>

@@ -3,6 +3,7 @@ package com.jth.kakao.pay.test.ui.search
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jth.kakao.pay.test.repo.api.GithubApiProvider
+import com.jth.kakao.pay.test.repo.model.GithubRepo
 import com.jth.kakao.pay.test.repo.model.RepoSearchResponse
 import com.jth.kakao.pay.test.usecase.CommonUseCase
 import retrofit2.Call
@@ -30,6 +31,10 @@ class SearchViewModel(private val useCase: CommonUseCase) : ViewModel() {
 
     private fun setSearchData(data: RepoSearchResponse?) {
         searchData.value = data
+    }
+
+    fun startRepository(repository : GithubRepo) {
+        useCase.startRepositoryActivity(repository)
     }
 
     fun getRepository(searchWord: String) {
