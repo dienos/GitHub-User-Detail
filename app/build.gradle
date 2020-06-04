@@ -14,10 +14,6 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        //dienos
-        /*buildConfigField "String", "GITHUB_CLIENT_ID", "\"911fae04f4b4eb82da00\""
-        buildConfigField "String", "GITHUB_CLIENT_SECRET", "\"e455ea87d84912765827de0b09e28fead7c4cb2f\""*/
-
         //KakaopayTestJth
         //rntahsld2a!
         buildConfigField "String", "GITHUB_CLIENT_ID", "\"2ebccad352d12d3ea0b3\""

@@ -56,6 +56,8 @@ class SearchViewModel(private val useCase: CommonUseCase) : ViewModel() {
                 setSearchData(item)
                 isEmpty(item.totalCount == 0)
             }) {
+                isEmpty(true)
+
                 it.message?.let { msg ->
                     useCase.showToast(msg)
                 }
