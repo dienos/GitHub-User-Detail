@@ -2,19 +2,22 @@ package com.jth.kakao.pay.test.ui.search
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.jth.kakao.pay.test.repo.api.GithubApiProvider
+import com.jth.kakao.pay.test.repo.api.provideGithubApi
 import com.jth.kakao.pay.test.repo.model.GithubRepo
 import com.jth.kakao.pay.test.repo.model.RepoSearchResponse
 import com.jth.kakao.pay.test.usecase.CommonUseCase
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import java.lang.IllegalStateException
 
 class SearchViewModel(private val useCase: CommonUseCase) : ViewModel() {
     companion object {
-        const val NO_NAME : String = "noName"
-        const val NO_LANGUAGE : String = "not select language"
+        const val NO_NAME: String = "noName"
+        const val NO_LANGUAGE: String = "not select language"
     }
+
+    internal val disposable = CompositeDisposable()
 
     var isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
     var isEmpty: MutableLiveData<Boolean> = MutableLiveData(false)
@@ -33,40 +36,30 @@ class SearchViewModel(private val useCase: CommonUseCase) : ViewModel() {
         searchData.value = data
     }
 
-    fun startRepository(repository : GithubRepo) {
+    fun startRepository(repository: GithubRepo) {
         useCase.startRepositoryActivity(repository)
     }
 
     fun getRepository(searchWord: String) {
-        isLoading(true)
-
-        val repoCall: Call<RepoSearchResponse> =
-            GithubApiProvider.provideGithubApi().searchRepository(searchWord)
-
-        repoCall.enqueue(object : Callback<RepoSearchResponse> {
-            override fun onFailure(call: Call<RepoSearchResponse>, t: Throwable) {
-                isLoading(false)
-
-                t.message?.let {
-                    useCase.showToast(it)
-                }
-            }
-
-            override fun onResponse(call: Call<RepoSearchResponse>,
-                                    response: Response<RepoSearchResponse>) {
-                isLoading(false)
-
-                if (response.isSuccessful) {
-                    val searchResult = response.body()
-                    setSearchData(searchResult)
-
-                    searchResult?.let {
-                        isEmpty(searchResult.items.isEmpty())
-                    } ?: isEmpty(true)
+        disposable.add(provideGithubApi().searchRepository(searchWord)
+            .flatMap {
+                if (it.totalCount == 0) {
+                    Observable.error(IllegalStateException("no search result"))
                 } else {
-                    useCase.showToast("search fail")
+                    Observable.just(it)
                 }
             }
-        })
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { isLoading(true) }
+            .doOnTerminate { isLoading(false) }
+            .subscribe({ item ->
+                setSearchData(item)
+                isEmpty(item.totalCount == 0)
+            }) {
+                it.message?.let { msg ->
+                    useCase.showToast(msg)
+                }
+            }
+        )
     }
 }

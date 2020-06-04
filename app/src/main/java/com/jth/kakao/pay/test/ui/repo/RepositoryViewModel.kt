@@ -2,13 +2,12 @@ package com.jth.kakao.pay.test.ui.repo
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.jth.kakao.pay.test.repo.api.GithubApiProvider
+import com.jth.kakao.pay.test.repo.api.provideGithubApi
 import com.jth.kakao.pay.test.repo.model.GithubOwner
 import com.jth.kakao.pay.test.repo.model.GithubRepo
 import com.jth.kakao.pay.test.usecase.CommonUseCase
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 
 class RepositoryViewModel(private val useCase: CommonUseCase) : ViewModel() {
     companion object {
@@ -17,6 +16,8 @@ class RepositoryViewModel(private val useCase: CommonUseCase) : ViewModel() {
         const val NO_LANGUAGE : String = "not select language"
         const val NO_UPDATE_DATE : String = "no update"
     }
+
+    internal val disposable = CompositeDisposable()
 
     var isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
     var repoData: MutableLiveData<GithubRepo> = MutableLiveData(
@@ -40,30 +41,29 @@ class RepositoryViewModel(private val useCase: CommonUseCase) : ViewModel() {
     }
 
     fun showRepositoryInfo(login: String, repoName: String) {
-        isLoading(true)
-
-        val repoCall = GithubApiProvider.provideGithubApi().getRepository(login, repoName)
-        repoCall.enqueue(object : Callback<GithubRepo> {
-            override fun onResponse(call: Call<GithubRepo>, response: Response<GithubRepo>) {
+        disposable.add(provideGithubApi().getRepository(login, repoName)
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe{isLoading(true)}
+            .doOnError {
                 isLoading(false)
 
-                val repo = response.body()
-                if (response.isSuccessful) {
-                    repo?.let {
-                        setRepoData(it)
-                    }?:useCase.showToast("repo data is null")
-                } else {
-                    useCase.showToast(response.message())
+                it.message?.let {
+                    msg ->
+                    useCase.showToast(msg)
                 }
             }
+            .doOnComplete{isLoading(false)}
+            .subscribe( {
+                repo ->
 
-            override fun onFailure(call: Call<GithubRepo>, t: Throwable) {
-                isLoading(false)
-
-                t.message?.let {
-                    useCase.showToast(it)
+                repo?.let {
+                    setRepoData(it)
+                }?:useCase.showToast("repo data is null")
+            }) {
+                it.message?.let {
+                    msg ->
+                    useCase.showToast(msg)
                 }
-            }
-        })
+            })
     }
 }

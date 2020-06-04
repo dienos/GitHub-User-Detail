@@ -50,9 +50,15 @@ class SearchActivity : BaseBindingActivity<ActivitySearchListBinding>() {
         return true
     }
 
+    override fun onStop() {
+        super.onStop()
+        viewModel.disposable.clear()
+    }
+
     private fun hideSoftKeyboard() {
-        val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(searchView.windowToken, 0)
+        (getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager).apply {
+            hideSoftInputFromWindow(searchView.windowToken, 0)
+        }
     }
 
     private fun collapseSearchView() {

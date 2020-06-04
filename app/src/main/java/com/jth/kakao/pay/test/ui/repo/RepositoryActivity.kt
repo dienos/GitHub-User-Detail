@@ -10,6 +10,8 @@ import com.jth.kakao.pay.test.util.Const.KEY_REPO_NAME
 import com.jth.kakao.pay.test.util.Const.KEY_USER_LOGIN
 
 class RepositoryActivity : BaseBindingActivity<ActivityRepositoryBinding>() {
+    lateinit var viewModel : RepositoryViewModel
+
     override fun getLayoutResId(): Int = R.layout.activity_repository
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,10 +23,17 @@ class RepositoryActivity : BaseBindingActivity<ActivityRepositoryBinding>() {
         binding.lifecycleOwner = this
         binding.viewModel = RepositoryViewModel(CommonUseCase(this))
 
+        viewModel = binding.viewModel as RepositoryViewModel
+
         if(login != null && repo != null) {
-            (binding.viewModel as RepositoryViewModel).showRepositoryInfo(login = login,repoName = repo)
+            viewModel.showRepositoryInfo(login = login,repoName = repo)
         } else {
             Toast.makeText(this, "extra data is null", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        viewModel.disposable.clear()
     }
 }

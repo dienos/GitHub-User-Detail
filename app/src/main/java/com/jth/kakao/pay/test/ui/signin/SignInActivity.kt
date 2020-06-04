@@ -51,4 +51,9 @@ class SignInActivity : BaseBindingActivity<ActivitySignInBinding>() {
         pb_loading.visibility = View.VISIBLE
         bt_start.visibility = View.GONE
     }
+
+    override fun onStop() {
+        super.onStop()
+        viewModel.disposable.clear()
+    }
 }

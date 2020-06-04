@@ -1,7 +1,7 @@
 package com.jth.kakao.pay.test.repo.api
 
 import com.jth.kakao.pay.test.repo.model.GithubAccessToken
-import retrofit2.Call
+import io.reactivex.Observable
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.Headers
@@ -15,5 +15,5 @@ interface AuthApi {
         @Field("client_id") clientId: String,
         @Field("client_secret") clientSecret: String,
         @Field("code") code: String
-    ): Call<GithubAccessToken>
+    ): Observable<GithubAccessToken>
 }
